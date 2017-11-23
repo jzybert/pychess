@@ -203,5 +203,3 @@ class ChessGame:
 			else:
 			    return True
 		return False
-
-game = ChessGame()
