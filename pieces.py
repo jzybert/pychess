@@ -74,7 +74,10 @@ class Piece():
 		if self.piece == ChessPiece.BISHOP:
 			return abs(currX - newX) == abs(currY - newY)
 		if self.piece == ChessPiece.KING:
-			return abs(currX - newX) < 2 and abs(currY - newY) < 2
+			if self.color == Color.BLACK:
+				return (not self.hasMoved and self.position == (4, 0) and (newPos == (2, 0) or newPos == (6, 0))) or abs(currX - newX) < 2 and abs(currY - newY) < 2
+			else:
+				return (not self.hasMoved and self.position == (4, 7) and (newPos == (2, 7) or newPos == (6, 7))) or abs(currX - newX) < 2 and abs(currY - newY) < 2
 		if self.piece == ChessPiece.QUEEN:
 			return currX == newX or currY == newY or abs(currX - newX) == abs(currY - newY)
 		if self.piece == ChessPiece.ROOK:

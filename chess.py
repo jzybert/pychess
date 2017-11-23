@@ -72,6 +72,20 @@ class ChessGame:
 					self.capturedWhitePieces.append(self.board[newX][newY])
 				else:
 					self.capturedBlackPieces.append(self.board[newX][newY])
+			if piece.getPiece() == ChessPiece.KING:
+				y = 0
+				if piece.getColor() == Color.WHITE:
+					y = 7
+				if currPos == (4, y) and newPos == (2, y):
+					rook = self.board[0][y]
+					self.board[0][y].updatePos((3, y))
+					self.board[0][y] = 0
+					self.board[3][y] = rook
+				if currPos == (4, y) and newPos == (6, y):
+					rook = self.board[7][y]
+					self.board[7][y].updatePos((5, y))
+					self.board[7][y] = 0
+					self.board[5][y] = rook
 			piece.updatePos(newPos)
 			self.board[currX][currY] = 0
 			self.board[newX][newY] = piece
