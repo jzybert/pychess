@@ -1,6 +1,7 @@
 import argparse
 from chess import *
 from pieces import *
+from minimaxAgent import *
 
 parser = argparse.ArgumentParser(description="Options for a chess game.")
 parser.add_argument("-p", "--play", help="play a game of chess", action="store_true")
@@ -12,11 +13,9 @@ if (args.play):
 	
 	startColor = input("Which color is starting first (white or black): ")
 	colorsToMove = [Color.WHITE, Color.BLACK]
-	colorIndex = 0
+	colorIndex = 1
 	if startColor == "white":
 		colorIndex = 0
-	else:
-		colorIndex = 1
 	
 	colors = ["White", "Black"]
 	while not game.isOver():
@@ -30,4 +29,10 @@ if (args.play):
 			print("That was not a vailid move. Try again.")
 
 if (args.ai):
-	print("AI is cool!")
+	game = ChessGame()
+	userColor = input("Which color are you (white or black): ")
+	color = Color.BLACK
+	if userColor == "white":
+		color = Color.WHITE
+		
+	agent = MinimaxAgent(game, color)
