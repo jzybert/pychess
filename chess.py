@@ -27,9 +27,14 @@ class ChessGame:
 		return False
 		
 	def getLegalMoves(self, color):
+		moves = []
+		return moves
 		
 	def generateSuccessor(self, color, move):
-		
+		nextState = self.copy()
+		currPos = move[0]
+		newPos = move[1]
+		nextState.movePiece(currPos, newPos, color)
 	
 	def generateBoard(self):
 		board = []
