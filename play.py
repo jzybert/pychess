@@ -32,7 +32,16 @@ if (args.ai):
 	game = ChessGame()
 	userColor = input("Which color are you (white or black): ")
 	color = Color.BLACK
+	oppColor = Color.WHITE
 	if userColor == "white":
 		color = Color.WHITE
+		oppColor = Color.BLACK
 		
 	agent = MinimaxAgent(game, color)
+	
+	while True:
+		action = agent.getAction()
+		print ("Best action for you to take: %s" % (action,))
+		moveFrom = tuple(int(x.strip()) for x in input("Where did your opponent move from: ").split(","))
+		moveTo = tuple(int(x.strip()) for x in input("Where did your opponent move to: ").split(","))
+		agent.movePiece(moveFrom, moveTo, oppColor)

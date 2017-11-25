@@ -12,6 +12,9 @@ class MinimaxAgent():
 		self.game = game
 		self.startColor = startColor
 		
+	def movePiece(self, moveFrom, moveTo, oppColor):
+		self.game.movePiece(moveFrom, moveTo, oppColor)
+		
 	def getAction(self):
 		def maxValue(state, depth, alpha, beta, colorIndex):
 			color = colors[colorIndex % 2]
@@ -43,14 +46,14 @@ class MinimaxAgent():
 		if self.startColor == Color.WHITE:
 			cIndex = 0
 		maxDepth = self.depth
-		legalMoves = game.getLegalMoves(colors[cIndex])
+		legalMoves = self.game.getLegalMoves(colors[cIndex])
 		bestAction = ((0, 0), (0, 1))
 		score = float("-inf")
 		alpha = float("-inf")
 		beta = float("inf")
 		for move in legalMoves:
 		    previousScore = score
-		    score = max(score, minValue(game.generateSuccessor(colors[cIndex], move), 0, alpha, beta, cIndex + 1))
+		    score = max(score, minValue(self.game.generateSuccessor(colors[cIndex], move), 0, alpha, beta, cIndex + 1))
 		    if score > previousScore:
 		        bestAction = move
 		    alpha = max(alpha, score)
