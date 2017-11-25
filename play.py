@@ -4,6 +4,7 @@ from pieces import *
 
 parser = argparse.ArgumentParser(description="Options for a chess game.")
 parser.add_argument("-p", "--play", help="play a game of chess", action="store_true")
+parser.add_argument("-a", "--ai", help="an AI will choose the best move for you", action="store_true")
 args = parser.parse_args()
 
 if (args.play):
@@ -27,3 +28,6 @@ if (args.play):
 			colorIndex += 1
 		else:
 			print("That was not a vailid move. Try again.")
+
+if (args.ai):
+	print("AI is cool!")
