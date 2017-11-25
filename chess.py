@@ -5,15 +5,21 @@ The state of a chess game.
 """
 class ChessGame:
 	def __init__(self):
-		self.pieces = self.generatePieces()
 		self.board = self.generateBoard()
 		self.capturedWhitePieces = []
 		self.capturedBlackPieces = []
-		self.printBoard()
+		self.whiteWins = False
+		self.blackWins = False
 		
-	def generatePieces(self):
-		return {}
-		
+	def isOver(self):
+		if self.whiteWins:
+			print("White wins!")
+			return True
+		if self.blackWins:
+			print("Black wins!")
+			return True
+		return False
+	
 	def generateBoard(self):
 		board = []
 		
@@ -62,16 +68,20 @@ class ChessGame:
 			print (" ")
 		print (" ")
 	
-	def movePiece(self, currPos, newPos):
+	def movePiece(self, currPos, newPos, currColor):
 		currX, currY = currPos
 		newX, newY = newPos
 		piece = self.board[currX][currY]
-		if piece != 0 and piece.canMoveTo(newPos, self.board[newX][newY]) and self.isNothingBlocking(currPos, newPos):
+		if piece != 0 and piece.getColor() == currColor and piece.canMoveTo(newPos, self.board[newX][newY]) and self.isNothingBlocking(currPos, newPos):
 			if self.board[newX][newY] != 0:
 				if self.board[newX][newY].getColor() == Color.WHITE:
 					self.capturedWhitePieces.append(self.board[newX][newY])
+					if self.board[newX][newY].getPiece() == ChessPiece.KING:
+						self.blackWins = True
 				else:
 					self.capturedBlackPieces.append(self.board[newX][newY])
+					if self.board[newX][newY].getPiece() == ChessPiece.KING:
+						self.whiteWins = True
 			if piece.getPiece() == ChessPiece.KING:
 				y = 0
 				if piece.getColor() == Color.WHITE:
@@ -89,7 +99,9 @@ class ChessGame:
 			piece.updatePos(newPos)
 			self.board[currX][currY] = 0
 			self.board[newX][newY] = piece
-		self.printBoard()
+			return True
+		else:
+			return False
 			
 	def isNothingBlocking(self, currPos, newPos):
 		currX, currY = currPos
