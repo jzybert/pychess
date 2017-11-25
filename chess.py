@@ -10,6 +10,12 @@ class ChessGame:
 		self.capturedBlackPieces = []
 		self.whiteWins = False
 		self.blackWins = False
+	
+	def isWin(self, color):
+		return (color == Color.WHITE and self.whiteWins) or (color == Color.BLACK and self.blackWins)
+		
+	def isLose(self, color):
+		return (color == Color.WHITE and self.blackWins) or (color == Color.BLACK and self.whiteWins)
 		
 	def isOver(self):
 		if self.whiteWins:
@@ -19,6 +25,11 @@ class ChessGame:
 			print("Black wins!")
 			return True
 		return False
+		
+	def getLegalMoves(self, color):
+		
+	def generateSuccessor(self, color, move):
+		
 	
 	def generateBoard(self):
 		board = []
