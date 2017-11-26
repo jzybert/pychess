@@ -21,7 +21,7 @@ class MinimaxAgent():
 			if state.isWin(color) or state.isLose(color) or depth == maxDepth:
 				return self.evaluationFunction(state)
 			v = float("-inf")
-			for move in state.getLegalActions(color):
+			for move in state.getLegalMoves(color):
 				v = max(v, minValue(state.generateSuccessor(color, move), depth, alpha, beta, colorIndex + 1))
 				if v > beta:
 					return v
