@@ -54,7 +54,7 @@ class Piece():
 	def canMoveTo(self, newPos, pieceAtNewPos):
 		currX, currY = self.position
 		newX, newY = newPos
-		if newX < 0 or newX > 7 or newY < 0 or newY > 7:
+		if newX < 0 or newX > 7 or newY < 0 or newY > 7 or (pieceAtNewPos != 0 and pieceAtNewPos.getColor() == self.color):
 			return False
 		if self.piece == ChessPiece.PAWN:
 			if self.color == Color.BLACK:
