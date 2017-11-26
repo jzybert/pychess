@@ -1,8 +1,19 @@
 from chess import *
 from pieces import *
 
-def scoreEvaluationFunction(game):
-	return 0
+def scoreEvaluationFunction(game, color):
+	score = 0
+	if color == Color.WHITE:
+		for blackPiece in game.capturedBlackPieces:
+			score += blackPiece.getPointVal()
+		for whitePiece in game.capturedWhitePieces:
+			score -= whitePiece.getPointVal()
+	else:
+		for whitePiece in game.capturedWhitePieces:
+			score += whitePiece.getPointVal()
+		for blackPiece in game.capturedBlackPieces:
+			score -= blackPiece.getPointVal()
+	return score
 	
 class MinimaxAgent():
 	
@@ -19,7 +30,7 @@ class MinimaxAgent():
 		def maxValue(state, depth, alpha, beta, colorIndex):
 			color = colors[colorIndex % 2]
 			if state.isWin(color) or state.isLose(color) or depth == maxDepth:
-				return self.evaluationFunction(state)
+				return self.evaluationFunction(state, color)
 			v = float("-inf")
 			for move in state.getLegalMoves(color):
 				v = max(v, minValue(state.generateSuccessor(color, move), depth, alpha, beta, colorIndex + 1))
@@ -31,7 +42,7 @@ class MinimaxAgent():
 		def minValue(state, depth, alpha, beta, colorIndex):
 			color = colors[colorIndex % 2]
 			if state.isWin(color) or state.isLose(color) or depth == maxDepth:
-				return self.evaluationFunction(state)
+				return self.evaluationFunction(state, color)
 			v = float("inf")
 			legalMoves = state.getLegalMoves(color)
 			for move in legalMoves:
