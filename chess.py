@@ -1,3 +1,4 @@
+import copy
 from pieces import *
 
 """
@@ -28,13 +29,22 @@ class ChessGame:
 		
 	def getLegalMoves(self, color):
 		moves = []
+		for x in range(8):
+			for y in range(8):
+				piece = self.board[x][y]
+				if piece != 0 and piece.getColor() == color:
+					for moveX in range(8):
+						for moveY in range(8):
+							if piece.canMoveTo((moveX, moveY), self.board[moveX][moveY]) and self.isNothingBlocking((x, y), (moveX, moveY)):
+								moves.append(((x, y), (moveX, moveY)))
 		return moves
 		
 	def generateSuccessor(self, color, move):
-		nextState = self.copy()
+		nextState = copy.deepcopy(self)
 		currPos = move[0]
 		newPos = move[1]
 		nextState.movePiece(currPos, newPos, color)
+		return nextState
 	
 	def generateBoard(self):
 		board = []
@@ -136,28 +146,28 @@ class ChessGame:
 					return True
 				if currX > newX and currY < newY:
 					i = newY
-					for x in range(newX, currX - 1):
+					for x in range(newX, currX):
 						if self.board[x][i] != 0 and x != newX:
 							return False
 						i -= 1
 					return True
 				if currX > newX and currY > newY:
-					i = currY - 1
-					for x in range(newX, currX - 1):
+					i = newY
+					for x in range(newX, currX):
 						if self.board[x][i] != 0 and x != newX:
 							return False
-						i -= 1
+						i += 1
 					return True
 				if currX < newX and currY > newY:
 					i = currY - 1
 					for x in range(currX + 1, newX):
 						if self.board[x][i] != 0 and x != newX:
 							return False
-						i += 1
+						i -= 1
 					return True
 			if piece == ChessPiece.ROOK:
 				if currX > newX:
-					for x in range(newX, currX - 1):
+					for x in range(newX, currX):
 						if self.board[x][currY] != 0 and x != newX:
 							return False
 					return True
@@ -167,7 +177,7 @@ class ChessGame:
 							return False
 					return True
 				if currY > newY:
-					for y in range(newY, currY - 1):
+					for y in range(newY, currY):
 						if self.board[currX][y] != 0 and y != newY:
 							return False
 					return True
@@ -179,7 +189,7 @@ class ChessGame:
 			if piece == ChessPiece.QUEEN:
 				if currY == newY:
 					if currX > newX:
-						for x in range(newX, currX - 1):
+						for x in range(newX, currX):
 							if self.board[x][currY] != 0 and x != newX:
 								return False
 						return True
@@ -190,7 +200,7 @@ class ChessGame:
 						return True
 				elif currX == newX:
 					if currY > newY:
-						for y in range(newY, currY - 1):
+						for y in range(newY, currY):
 							if self.board[currX][y] != 0 and y != newY:
 								return False
 						return True
@@ -209,24 +219,24 @@ class ChessGame:
 						return True
 					if currX > newX and currY < newY:
 						i = newY
-						for x in range(newX, currX - 1):
+						for x in range(newX, currX):
 							if self.board[x][i] != 0 and x != newX:
 								return False
 							i -= 1
 						return True
 					if currX > newX and currY > newY:
-						i = currY - 1
-						for x in range(newX, currX - 1):
+						i = newY
+						for x in range(newX, currX):
 							if self.board[x][i] != 0 and x != newX:
 								return False
-							i -= 1
+							i += 1
 						return True
 					if currX < newX and currY > newY:
 						i = currY - 1
 						for x in range(currX + 1, newX):
 							if self.board[x][i] != 0 and x != newX:
 								return False
-							i += 1
+							i -= 1
 						return True
 			else:
 			    return True
