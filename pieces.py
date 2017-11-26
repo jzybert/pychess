@@ -25,7 +25,7 @@ class Piece():
 	
 	def getPointVal(self):
 		if (self.piece == ChessPiece.KING):
-			return float(inf)
+			return float("inf")
 		if (self.piece == ChessPiece.QUEEN):
 			return 9
 		if (self.piece == ChessPiece.ROOK):
