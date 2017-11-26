@@ -46,8 +46,12 @@ if (args.ai):
 		agent.movePiece(moveFrom, moveTo, oppColor)
 	
 	while True:
+		agent.printBoard()
+		print("Generating best move...")
 		action = agent.getAction()
 		print ("Best action for you to take: %s" % (action,))
+		agent.movePiece(action[0], action[1], color)
+		agent.printBoard()
 		moveFrom = tuple(int(x.strip()) for x in input("Where did your opponent move from: ").split(","))
 		moveTo = tuple(int(x.strip()) for x in input("Where did your opponent move to: ").split(","))
 		agent.movePiece(moveFrom, moveTo, oppColor)

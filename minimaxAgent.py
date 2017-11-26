@@ -23,6 +23,9 @@ class MinimaxAgent():
 		self.game = game
 		self.startColor = startColor
 		
+	def printBoard(self):
+		self.game.printBoard()
+		
 	def movePiece(self, moveFrom, moveTo, oppColor):
 		self.game.movePiece(moveFrom, moveTo, oppColor)
 		

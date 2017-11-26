@@ -53,30 +53,30 @@ class ChessGame:
 			row = []
 			for y in range(8):
 				if (y == 1):
-					row.append(Piece(ChessPiece.PAWN, Color.BLACK, (x, y), "BP"))
+					row.append(Piece(ChessPiece.PAWN, Color.BLACK, (x, y), "♟"))
 				elif (y == 6):
-					row.append(Piece(ChessPiece.PAWN, Color.WHITE, (x, y), "WP"))
+					row.append(Piece(ChessPiece.PAWN, Color.WHITE, (x, y), "♙"))
 				else:
 					row.append(0)
 			board.append(row)
 				
-		board[0][0] = Piece(ChessPiece.ROOK, Color.BLACK, (0, 0), "BR1")
-		board[1][0] = Piece(ChessPiece.KNIGHT, Color.BLACK, (1, 0), "BK1")
-		board[2][0] = Piece(ChessPiece.BISHOP, Color.BLACK, (2, 0), "BB1")
-		board[3][0] = Piece(ChessPiece.QUEEN, Color.BLACK, (3, 0), "BQ")
-		board[4][0] = Piece(ChessPiece.KING, Color.BLACK, (4, 0), "BK")
-		board[5][0] = Piece(ChessPiece.BISHOP, Color.BLACK, (5, 0), "BB2")
-		board[6][0] = Piece(ChessPiece.KNIGHT, Color.BLACK, (6, 0), "BK2")
-		board[7][0] = Piece(ChessPiece.ROOK, Color.BLACK, (7, 0), "BR2")
+		board[0][0] = Piece(ChessPiece.ROOK, Color.BLACK, (0, 0), "♜")
+		board[1][0] = Piece(ChessPiece.KNIGHT, Color.BLACK, (1, 0), "♞")
+		board[2][0] = Piece(ChessPiece.BISHOP, Color.BLACK, (2, 0), "♝")
+		board[3][0] = Piece(ChessPiece.QUEEN, Color.BLACK, (3, 0), "♛")
+		board[4][0] = Piece(ChessPiece.KING, Color.BLACK, (4, 0), "♚")
+		board[5][0] = Piece(ChessPiece.BISHOP, Color.BLACK, (5, 0), "♝")
+		board[6][0] = Piece(ChessPiece.KNIGHT, Color.BLACK, (6, 0), "♞")
+		board[7][0] = Piece(ChessPiece.ROOK, Color.BLACK, (7, 0), "♜")
 		
-		board[0][7] = Piece(ChessPiece.ROOK, Color.WHITE, (0, 7), "WR1")
-		board[1][7] = Piece(ChessPiece.KNIGHT, Color.WHITE, (1, 7), "WR1")
-		board[2][7] = Piece(ChessPiece.BISHOP, Color.WHITE, (2, 7), "WB1")
-		board[3][7] = Piece(ChessPiece.QUEEN, Color.WHITE, (3, 7), "WQ")
-		board[4][7] = Piece(ChessPiece.KING, Color.WHITE, (4, 7), "WK")
-		board[5][7] = Piece(ChessPiece.BISHOP, Color.WHITE, (5, 7), "WB2")
-		board[6][7] = Piece(ChessPiece.KNIGHT, Color.WHITE, (6, 7), "WK2")
-		board[7][7] = Piece(ChessPiece.ROOK, Color.WHITE, (7, 7), "WR2")
+		board[0][7] = Piece(ChessPiece.ROOK, Color.WHITE, (0, 7), "♖")
+		board[1][7] = Piece(ChessPiece.KNIGHT, Color.WHITE, (1, 7), "♘")
+		board[2][7] = Piece(ChessPiece.BISHOP, Color.WHITE, (2, 7), "♗")
+		board[3][7] = Piece(ChessPiece.QUEEN, Color.WHITE, (3, 7), "♕")
+		board[4][7] = Piece(ChessPiece.KING, Color.WHITE, (4, 7), "♔")
+		board[5][7] = Piece(ChessPiece.BISHOP, Color.WHITE, (5, 7), "♗")
+		board[6][7] = Piece(ChessPiece.KNIGHT, Color.WHITE, (6, 7), "♘")
+		board[7][7] = Piece(ChessPiece.ROOK, Color.WHITE, (7, 7), "♖")
 		
 		return board
 		
@@ -84,13 +84,10 @@ class ChessGame:
 		for y in range(8):
 			for x in range(8):
 				if self.board[x][y] == 0:
-					print (" 0 ", end=" ")
+					print (" 0", end=" ")
 				else:
 					name = self.board[x][y].getName()
-					if len(name) == 2:
-						print (name + " ", end=" ")
-					else:
-						print (self.board[x][y].getName(), end=" ")
+					print (" " + name, end=" ")
 			print (" ")
 		print (" ")
 	
