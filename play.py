@@ -39,6 +39,12 @@ if (args.ai):
 		
 	agent = MinimaxAgent(game, color)
 	
+	isFirst = input("Are you moving first (yes or no): ")
+	if isFirst == "no":
+		moveFrom = tuple(int(x.strip()) for x in input("Where did your opponent move from: ").split(","))
+		moveTo = tuple(int(x.strip()) for x in input("Where did your opponent move to: ").split(","))
+		agent.movePiece(moveFrom, moveTo, oppColor)
+	
 	while True:
 		action = agent.getAction()
 		print ("Best action for you to take: %s" % (action,))
