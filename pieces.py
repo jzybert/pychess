@@ -24,15 +24,15 @@ class Piece():
 		self.hasMoved = False
 	
 	def getPointVal(self):
-		if (self.piece.name == KING):
+		if (self.piece == ChessPiece.KING):
 			return float(inf)
-		if (self.piece.name == QUEEN):
+		if (self.piece == ChessPiece.QUEEN):
 			return 9
-		if (self.piece.name == ROOK):
+		if (self.piece == ChessPiece.ROOK):
 			return 5
-		if (self.piece.name == BISHOP or self.name == KNIGHT):
+		if (self.piece == ChessPiece.BISHOP or self.piece == ChessPiece.KNIGHT):
 			return 3
-		if (self.piece.name == PAWN):
+		if (self.piece == ChessPiece.PAWN):
 			return 1
 			
 	def getPiece(self):
