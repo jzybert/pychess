@@ -9,5 +9,5 @@ This is a work-in-progress chess game written in Python 3.6.
 3. Type `python3 play.py` to begin the game
 
 ## Optional flags:
-`-a, --ai`             an AI will choose the best move for you
-`-m, --material`  evaluate moves based on material
+1. `-a, --ai` an AI will choose the best move for you
+2. `-m, --material` evaluate moves based on material
