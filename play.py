@@ -4,11 +4,13 @@ from pieces import *
 from minimaxAgent import *
 
 parser = argparse.ArgumentParser(description="Options for a chess game.")
-parser.add_argument("-p", "--play", help="play a game of chess", action="store_true")
 parser.add_argument("-a", "--ai", help="an AI will choose the best move for you", action="store_true")
+parser.add_argument("-m", "--material", help="evaluate moves based on material", action="store_true")
 args = parser.parse_args()
 
-if (args.play):
+evalFns = ["scoreEvaluationFunction"]
+
+if not args.ai:
 	game = ChessGame()
 	
 	startColor = input("Which color is starting first (white or black): ")
@@ -27,8 +29,7 @@ if (args.play):
 			colorIndex += 1
 		else:
 			print("That was not a vailid move. Try again.")
-
-if (args.ai):
+else:
 	game = ChessGame()
 	userColor = input("Which color are you (white or black): ")
 	color = Color.BLACK
@@ -36,8 +37,13 @@ if (args.ai):
 	if userColor == "white":
 		color = Color.WHITE
 		oppColor = Color.BLACK
-		
-	agent = MinimaxAgent(game, color)
+	
+	agent = 0
+	if args.material:
+		print ("here")
+		agent = MinimaxAgent(game, color, "scoreEvaluationFunction")
+	else:
+	    agent = MinimaxAgent(game, color)
 	
 	isFirst = input("Are you moving first (yes or no): ")
 	if isFirst == "no":
