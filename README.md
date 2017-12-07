@@ -4,9 +4,10 @@
 This is a work-in-progress chess game written in Python 3.6.
 
 This was designed as my final project for CS 4100 Artificial 
-Intelligence in which we were tasked to apply our AI knowledge
-in some aspect that interested us. I chose to make a chess-playing
-minimax agent that compared various evaluation functions.
+Intelligence at Northeastern University in which we were 
+tasked to apply our AI knowledge in some aspect that 
+interested us. I chose to make a chess-playing minimax agent 
+that compared various evaluation functions.
 
 ## How to run:
 1. Clone this repository locally
