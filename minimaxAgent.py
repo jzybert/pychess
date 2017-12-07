@@ -1,6 +1,9 @@
 from chess import *
 from pieces import *
 
+"""
+Evaluation function which evaluates moves based on material gained/lost.
+"""
 def scoreEvaluationFunction(game, color):
 	score = 0
 	if color == Color.WHITE:
@@ -14,20 +17,26 @@ def scoreEvaluationFunction(game, color):
 		for blackPiece in game.capturedBlackPieces:
 			score -= blackPiece.getPointVal()
 	return score
-	
+
+"""
+Evaluation function which evaluates moves based on board position.
+"""
 def positionEvaluationFunction(game, color):
 	return 0
-	
+
+"""
+Evaluation function which evaluates moves based on king safety.
+"""
 def kingEvaluationFunction(game, color):
 	return 0
 
+"""
+Evaluation function which evaluates moves based on tempo.
+"""
 def tempoEvaluationFunction(game, color):
 	return 0
 	
-
-	
 class MinimaxAgent():
-	
 	def __init__(self, game, startColor, evalFn = 'scoreEvaluationFunction', depth = '2'):
 		self.evaluationFunction = globals()[evalFn]
 		self.depth = int(depth)
