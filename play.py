@@ -6,6 +6,9 @@ from minimaxAgent import *
 parser = argparse.ArgumentParser(description="Options for a chess game.")
 parser.add_argument("-a", "--ai", help="an AI will choose the best move for you", action="store_true")
 parser.add_argument("-m", "--material", help="evaluate moves based on material", action="store_true")
+parser.add_argument("-p", "--position", help="evaluate moves based on position", action="store_true")
+parser.add_argument("-k", "--king", help="evaluate moves based on king safety", action="store_true")
+parser.add_argument("-t", "--tempo", help="evaluate moves based on tempo", action="store_true")
 args = parser.parse_args()
 
 evalFns = ["scoreEvaluationFunction"]
@@ -40,8 +43,13 @@ else:
 	
 	agent = 0
 	if args.material:
-		print ("here")
 		agent = MinimaxAgent(game, color, "scoreEvaluationFunction")
+	elif args.position:
+		agent = MinimaxAgent(game, color, "positionEvaluationFunction")
+	elif args.king:
+		agent = MinimaxAgent(game, color, "kingEvaluationFunction")
+	elif args.temp:
+		agent = MinimaxAgent(game, color, "tempoEvaluationFunction")
 	else:
 	    agent = MinimaxAgent(game, color)
 	

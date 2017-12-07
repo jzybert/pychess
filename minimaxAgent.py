@@ -15,6 +15,17 @@ def scoreEvaluationFunction(game, color):
 			score -= blackPiece.getPointVal()
 	return score
 	
+def positionEvaluationFunction(game, color):
+	return 0
+	
+def kingEvaluationFunction(game, color):
+	return 0
+
+def tempoEvaluationFunction(game, color):
+	return 0
+	
+
+	
 class MinimaxAgent():
 	
 	def __init__(self, game, startColor, evalFn = 'scoreEvaluationFunction', depth = '2'):
