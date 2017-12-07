@@ -1,10 +1,18 @@
 import copy
 from pieces import *
 
-"""
-The state of a chess game.
-"""
+
+""" The state of a chess game. """
 class ChessGame:
+	"""
+	Initialize the ChessGame.
+	
+	self.board -- a list of pieces on the board
+	self.capturedWhitePieces -- a list of captured white pieces
+	self.capturedBlackPieces -- a list of captured black pieces
+	self.whiteWins -- True if white wins
+	self.blackWins -- True if black wins
+	"""
 	def __init__(self):
 		self.board = self.generateBoard()
 		self.capturedWhitePieces = []
@@ -12,12 +20,25 @@ class ChessGame:
 		self.whiteWins = False
 		self.blackWins = False
 	
+	"""
+	Returns True if the given color won.
+	
+	color -- the color to be checked if it won
+	"""
 	def isWin(self, color):
-		return (color == Color.WHITE and self.whiteWins) or (color == Color.BLACK and self.blackWins)
+		return (color == Color.WHITE and self.whiteWins) \
+		            or (color == Color.BLACK and self.blackWins)
 		
+	"""
+	Returns True if the given color lost.
+	
+	color -- the color to be check if it lost
+	"""
 	def isLose(self, color):
-		return (color == Color.WHITE and self.blackWins) or (color == Color.BLACK and self.whiteWins)
+		return (color == Color.WHITE and self.blackWins) \
+		            or (color == Color.BLACK and self.whiteWins)
 		
+	""" Returns True if the game is over (i.e. did a color win?). """
 	def isOver(self):
 		if self.whiteWins:
 			print("White wins!")
@@ -27,6 +48,11 @@ class ChessGame:
 			return True
 		return False
 		
+	"""
+	Returns a list of legal moves for the given color.
+	
+	color -- the color to find legal moves for
+	"""
 	def getLegalMoves(self, color):
 		moves = []
 		for x in range(8):
@@ -35,10 +61,14 @@ class ChessGame:
 				if piece != 0 and piece.getColor() == color:
 					for moveX in range(8):
 						for moveY in range(8):
-							if piece.canMoveTo((moveX, moveY), self.board[moveX][moveY]) and self.isNothingBlocking((x, y), (moveX, moveY)):
+							if piece.canMoveTo((moveX, moveY), self.board[moveX][moveY]) \
+							   and self.isNothingBlocking((x, y), (moveX, moveY)):
 								moves.append(((x, y), (moveX, moveY)))
 		return moves
 		
+	"""
+	Returns the successor ChessGame based for the given color taking the given move.
+	"""
 	def generateSuccessor(self, color, move):
 		nextState = copy.deepcopy(self)
 		currPos = move[0]
