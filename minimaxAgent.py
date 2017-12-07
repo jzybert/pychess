@@ -22,13 +22,32 @@ def scoreEvaluationFunction(game, color):
 Evaluation function which evaluates moves based on board position.
 """
 def positionEvaluationFunction(game, color):
-	return 0
+	score = 0
+	for x in range(8):
+		for y in range(8):
+			piece = game.board[x][y]
+			if piece != 0:
+				if (piece.canMoveTo((3, 3), game.board[3][3]) and game.isNothingBlocking((x, y), (3, 3))) \
+				or (piece.canMoveTo((3, 4), game.board[3][4]) and game.isNothingBlocking((x, y), (3, 4))) \
+				or (piece.canMoveTo((4, 3), game.board[4][3]) and game.isNothingBlocking((x, y), (4, 3))) \
+				or (piece.canMoveTo((4, 4), game.board[4][4]) and game.isNothingBlocking((x, y), (4, 4))):
+					score += 10
+	return score
 
 """
 Evaluation function which evaluates moves based on king safety.
 """
 def kingEvaluationFunction(game, color):
-	return 0
+	score = 0
+	if color == Color.WHITE:
+		if game.board[2][7].getPiece() == ChessPiece.KING \
+		or game.board[6][7].getPiece() == ChessPiece.KING:
+			score += 10
+	else:
+		if game.board[2][0].getPiece() == ChessPiece.KING \
+		or game.board[6][0].getPiece() == ChessPiece.KING:
+			score += 10
+	return score
 
 """
 Evaluation function which evaluates moves based on tempo.
