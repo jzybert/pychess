@@ -67,8 +67,6 @@ elif args.ai:
         agent = MinimaxAgent(game, color, "positionEvaluationFunction")
     elif args.king:
         agent = MinimaxAgent(game, color, "kingEvaluationFunction")
-    elif args.temp:
-        agent = MinimaxAgent(game, color, "tempoEvaluationFunction")
     else:
         agent = MinimaxAgent(game, color)
 
