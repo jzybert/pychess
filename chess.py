@@ -234,7 +234,7 @@ class ChessGame:
                             return False
                         i -= 1
                     return True
-            if piece == ChessPiece.ROOK:
+            elif piece == ChessPiece.ROOK:
                 if currX > newX:
                     for x in range(newX, currX):
                         if self.board[x][currY] != 0 and x != newX:
@@ -255,7 +255,7 @@ class ChessGame:
                         if self.board[currX][y] != 0 and y != newY:
                             return False
                     return True
-            if piece == ChessPiece.QUEEN:
+            elif piece == ChessPiece.QUEEN:
                 if currY == newY:
                     if currX > newX:
                         for x in range(newX, currX):
