@@ -6,6 +6,9 @@ parser = argparse.ArgumentParser(description="Options for a chess game.")
 parser.add_argument("-a", "--ai",
                     help="an AI will choose the best move for you",
                     action="store_true")
+parser.add_argument("-d", "-data",
+                    help="run tests to get data",
+                    action="store_true")
 parser.add_argument("-m", "--material",
                     help="evaluate moves based on material",
                     action="store_true")
@@ -15,12 +18,9 @@ parser.add_argument("-p", "--position",
 parser.add_argument("-k", "--king",
                     help="evaluate moves based on king safety",
                     action="store_true")
-parser.add_argument("-t", "--tempo",
-                    help="evaluate moves based on tempo",
-                    action="store_true")
 args = parser.parse_args()
 
-if not args.ai:
+if not args.ai and not args.test:
     game = ChessGame()
 
     startColor = input("Which color is starting first (white or black): ")
@@ -46,7 +46,7 @@ if not args.ai:
             colorIndex += 1
         else:
             print("That was not a valid move. Try again.")
-else:
+elif args.ai:
     game = ChessGame()
     userColor = input("Which color are you (white or black): ")
     color = Color.BLACK
@@ -81,7 +81,7 @@ else:
         )
         agent.movePiece(moveFrom, moveTo, oppColor)
 
-    while True:
+    while not game.isOver():
         agent.printBoard()
         print("Generating best move...")
         action = agent.getAction()
@@ -99,3 +99,30 @@ else:
             ).split(",")
         )
         agent.movePiece(moveFrom, moveTo, oppColor)
+else:
+    game1 = ChessGame()
+    game2 = ChessGame()
+    numOfGames = 0
+    eval1 = "scoreEvaluationFunction"
+    eval2 = "positionEvaluationFunction"
+    if args.material and args.king:
+        eval2 = "kingEvaluationFunction"
+    elif args.position and args.king:
+        eval1 = "kingEvaluationFunction"
+    agent1 = MinimaxAgent(game1, Color.WHITE, eval1)
+    agent2 = MinimaxAgent(game2, Color.BLACK, eval2)
+
+    for i in range(1):
+        print("Running simulation %i", i)
+        while not game1.isOver():
+            action1 = agent1.getAction()
+            agent1.movePiece(action1[0], action1[1], Color.WHITE)
+            agent2.movePiece(action1[0], action1[1], Color.WHITE)
+
+            action2 = agent2.getAction()
+            agent1.movePiece(action2[0], action2[0], Color.BLACK)
+            agent2.movePiece(action2[0], action2[0], Color.BLACK)
+        if game1.whiteWins:
+            print("White won!")
+        if game1.blackWins:
+            print("Black won!")
