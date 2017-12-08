@@ -53,21 +53,37 @@ def kingEvaluationFunction(game, color):
     :param color: the color making the move
     :return: the evaluated score
     """
+    castleToY = 0
+    oppColor = Color.BLACK
+    if color == Color.BLACK:
+        castleToY = 7
+        oppColor = Color.WHITE
+
     score = 0
-    if color == Color.WHITE:
-        if (game.board[2][7].getPiece() == ChessPiece.KING
-            or game.board[6][7].getPiece() == ChessPiece.KING):
-            score += 10
-    else:
-        if (game.board[2][0].getPiece() == ChessPiece.KING
-            or game.board[6][0].getPiece() == ChessPiece.KING):
-            score += 10
+    # castle early
+    if (game.board[2][castleToY].getPiece() == ChessPiece.KING
+        or game.board[6][castleToY].getPiece() == ChessPiece.KING):
+        score += 10
+    # reduce the number of checks (encourage blocking)
+    kx, ky = game.findPiece(ChessPiece.KING, color)
+    king = game.board[kx][ky]
+    numberOfChecks = 0
+    for x in range(8):
+        for y in range(8):
+            opp = game.board[x][y]
+            if (opp.getColor() == oppColor
+                and opp.canMoveTo((kx, ky), king)
+                and game.board.isNothingBlocking((x, y), (kx, ky))):
+                numberOfChecks += 1
+    if numberOfChecks != 0:
+        score -= 100
     return score
 
 
 def tempoEvaluationFunction(game, color):
     """
     Evaluation function which evaluates moves based on tempo.
+    (i.e. develop faster than your opponent)
     :param game: a ChessGame
     :param color: the color making the move
     :return: the evaluated score

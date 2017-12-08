@@ -132,6 +132,20 @@ class ChessGame:
             print(" ")
         print(" ")
 
+    def findPiece(self, pieceType, color):
+        """
+        Finds the location of the piece on the board.
+        :param pieceType: a ChessPiece to search for
+        :param color: a Color to search for
+        :return: the location of the piece
+        """
+        for x in range(8):
+            for y in range(8):
+                piece = self.board[x][y]
+                if (piece.getPiece() == pieceType
+                    and piece.getColor() == color):
+                    return x, y
+
     def movePiece(self, currPos, newPos, currColor):
         """
         Moves the piece at currPos to newPos.
