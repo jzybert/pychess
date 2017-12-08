@@ -39,7 +39,7 @@ class Piece:
         :return: the point value
         """
         if self.piece == ChessPiece.KING:
-            return float("inf")
+            return 100000000
         if self.piece == ChessPiece.QUEEN:
             return 9
         if self.piece == ChessPiece.ROOK:
