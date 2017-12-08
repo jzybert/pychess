@@ -34,15 +34,23 @@ def positionEvaluationFunction(game, color):
         for y in range(8):
             piece = game.board[x][y]
             if piece != 0:
-                if ((piece.canMoveTo((3, 3), game.board[3][3])
-                     and game.isNothingBlocking((x, y), (3, 3)))
-                    or (piece.canMoveTo((3, 4), game.board[3][4])
-                        and game.isNothingBlocking((x, y), (3, 4)))
-                    or (piece.canMoveTo((4, 3), game.board[4][3])
-                        and game.isNothingBlocking((x, y), (4, 3)))
-                    or (piece.canMoveTo((4, 4), game.board[4][4])
-                        and game.isNothingBlocking((x, y), (4, 4)))):
-                    score += 10
+                if piece.getColor() == color:
+                    # prioritize controlling the middle
+                    if ((piece.canMoveTo((3, 3), game.board[3][3])
+                         and game.isNothingBlocking((x, y), (3, 3)))
+                        or (piece.canMoveTo((3, 4), game.board[3][4])
+                            and game.isNothingBlocking((x, y), (3, 4)))
+                        or (piece.canMoveTo((4, 3), game.board[4][3])
+                            and game.isNothingBlocking((x, y), (4, 3)))
+                        or (piece.canMoveTo((4, 4), game.board[4][4])
+                            and game.isNothingBlocking((x, y), (4, 4)))):
+                        score += 100
+                    # control open squares
+                    for px in range(8):
+                        for py in range(8):
+                            if (piece.canMoveTo((px, py), game.board[px][py])
+                                and game.isNothingBlocking((x, y), (px, py))):
+                                score += 1
     return score
 
 
