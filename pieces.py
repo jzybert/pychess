@@ -111,9 +111,11 @@ class Piece:
                 return ((not self.hasMoved
                          and self.position == (4, 0)
                          and ((newPos == (2, 0)
+                               and board[0][0] != 0
                                and not board[0][0].hasMoved
                                and board[0][0].getPiece() == ChessPiece.ROOK)
                               or (newPos == (6, 0)
+                                  and board[7][0] != 0
                                   and not board[7][0].hasMoved
                                   and board[7][0].getPiece() == ChessPiece.ROOK
                                   )))
@@ -122,9 +124,11 @@ class Piece:
                 return ((not self.hasMoved
                          and self.position == (4, 7)
                          and ((newPos == (2, 7)
+                               and board[0][7] != 0
                                and not board[0][7].hasMoved
                                and board[0][7].getPiece() == ChessPiece.ROOK)
                               or (newPos == (6, 7)
+                                  and board[7][7] != 0
                                   and not board[7][7].hasMoved
                                   and board[7][7].getPiece() == ChessPiece.ROOK
                                   )))
