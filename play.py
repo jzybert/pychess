@@ -104,8 +104,7 @@ elif args.ai:
         )
         agent.movePiece(moveFrom, moveTo, oppColor)
 else:
-    game1 = ChessGame()
-    game2 = ChessGame()
+    game = ChessGame()
     numOfGames = 0
     eval1 = "scoreEvaluationFunction"
     eval2 = "positionEvaluationFunction"
@@ -113,33 +112,37 @@ else:
         eval2 = "kingEvaluationFunction"
     elif args.position and args.king:
         eval1 = "kingEvaluationFunction"
-    agent1 = MinimaxAgent(game1, Color.WHITE, eval1)
-    agent2 = MinimaxAgent(game2, Color.BLACK, eval2)
+    agent1 = MinimaxAgent(game, Color.WHITE, eval1)
+    agent2 = MinimaxAgent(game, Color.BLACK, eval2)
 
     numOfWhiteWins = 0
     numOfBlackWins = 0
-    times = []
+    times1 = []
+    times2 = []
     for i in range(1):
         print("Running simulation " + str(i))
-        start = time.time()
-        while not game1.isOver():
+        while not game.isOver():
+            start1 = time.time()
             action1 = agent1.getAction()
+            end1 = time.time()
             agent1.movePiece(action1[0], action1[1], Color.WHITE)
-            agent2.movePiece(action1[0], action1[1], Color.WHITE)
             if args.visual:
                 agent1.printBoard()
+            start2 = time.time()
             action2 = agent2.getAction()
-            agent1.movePiece(action2[0], action2[0], Color.BLACK)
-            agent2.movePiece(action2[0], action2[0], Color.BLACK)
+            end2 = time.time()
+            agent2.movePiece(action2[0], action2[1], Color.BLACK)
             if args.visual:
-                agent1.printBoard()
-        if game1.whiteWins:
+                agent2.printBoard()
+            times1.append(end1 - start1)
+            times2.append(end2 - start2)
+        if game.whiteWins:
             numOfWhiteWins += 1
-        if game1.blackWins:
+        if game.blackWins:
             numOfBlackWins += 1
-        end = time.time()
-        times.append(end - start)
-    averageTime = sum(times) / len(times)
-    print("Average time: " + str(averageTime))
+    averageTime1 = sum(times1) / len(times1)
+    averageTime2 = sum(times2) / len(times2)
+    print("Average time for white move: " + str(averageTime1))
+    print("Average time for black move: " + str(averageTime2))
     print("White won: " + str(numOfWhiteWins))
     print("Black won: " + str(numOfBlackWins))
