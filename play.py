@@ -10,6 +10,9 @@ parser.add_argument("-a", "--ai",
 parser.add_argument("-d", "--data",
                     help="run tests to get data",
                     action="store_true")
+parser.add_argument("-v", "--visual",
+                    help="show the chess board when playing",
+                    action="store_true")
 parser.add_argument("-m", "--material",
                     help="evaluate moves based on material",
                     action="store_true")
@@ -32,7 +35,8 @@ if not args.ai and not args.data:
 
     colors = ["White", "Black"]
     while not game.isOver():
-        game.printBoard()
+        if args.visual:
+            game.printBoard()
         print(colors[colorIndex % 2] + ", it's your move.")
         moveFrom = tuple(
             int(x.strip()) for x in input(
@@ -83,7 +87,8 @@ elif args.ai:
         agent.movePiece(moveFrom, moveTo, oppColor)
 
     while not game.isOver():
-        agent.printBoard()
+        if args.visual:
+            agent.printBoard()
         print("Generating best move...")
         action = agent.getAction()
         print("Best action for you to take: %s" % (action,))
@@ -123,10 +128,13 @@ else:
             action1 = agent1.getAction()
             agent1.movePiece(action1[0], action1[1], Color.WHITE)
             agent2.movePiece(action1[0], action1[1], Color.WHITE)
-
+            if args.visual:
+                agent1.printBoard()
             action2 = agent2.getAction()
             agent1.movePiece(action2[0], action2[0], Color.BLACK)
             agent2.movePiece(action2[0], action2[0], Color.BLACK)
+            if args.visual:
+                agent1.printBoard()
         if game1.whiteWins:
             numOfWhiteWins += 1
         if game1.blackWins:
