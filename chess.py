@@ -6,12 +6,6 @@ class ChessGame:
     """
     A ChessGame contains all information of a chess game and the methods
     to determine wins/losses, new states, and piece movement.
-
-    self.board -- a list of pieces on the board
-    self.capturedWhitePieces -- a list of captured white pieces
-    self.capturedBlackPieces -- a list of captured black pieces
-    self.whiteWins -- True if white wins
-    self.blackWins -- True if black wins
     """
     def __init__(self):
         self.board = []
