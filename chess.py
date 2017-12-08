@@ -90,33 +90,33 @@ class ChessGame:
             for y in range(8):
                 if y == 1:
                     row.append(
-                        Piece(ChessPiece.PAWN, Color.BLACK, (x, y), "♟")
+                        Piece(ChessPiece.PAWN, Color.BLACK, (x, y), "BP")
                     )
                 elif y == 6:
                     row.append(
-                        Piece(ChessPiece.PAWN, Color.WHITE, (x, y), "♙")
+                        Piece(ChessPiece.PAWN, Color.WHITE, (x, y), "WP")
                     )
                 else:
                     row.append(0)
             board.append(row)
 
-        board[0][0] = Piece(ChessPiece.ROOK, Color.BLACK, (0, 0), "♜")
-        board[1][0] = Piece(ChessPiece.KNIGHT, Color.BLACK, (1, 0), "♞")
-        board[2][0] = Piece(ChessPiece.BISHOP, Color.BLACK, (2, 0), "♝")
-        board[3][0] = Piece(ChessPiece.QUEEN, Color.BLACK, (3, 0), "♛")
-        board[4][0] = Piece(ChessPiece.KING, Color.BLACK, (4, 0), "♚")
-        board[5][0] = Piece(ChessPiece.BISHOP, Color.BLACK, (5, 0), "♝")
-        board[6][0] = Piece(ChessPiece.KNIGHT, Color.BLACK, (6, 0), "♞")
-        board[7][0] = Piece(ChessPiece.ROOK, Color.BLACK, (7, 0), "♜")
+        board[0][0] = Piece(ChessPiece.ROOK, Color.BLACK, (0, 0), "BR")
+        board[1][0] = Piece(ChessPiece.KNIGHT, Color.BLACK, (1, 0), "BKn")
+        board[2][0] = Piece(ChessPiece.BISHOP, Color.BLACK, (2, 0), "BB")
+        board[3][0] = Piece(ChessPiece.QUEEN, Color.BLACK, (3, 0), "BQ")
+        board[4][0] = Piece(ChessPiece.KING, Color.BLACK, (4, 0), "BKi")
+        board[5][0] = Piece(ChessPiece.BISHOP, Color.BLACK, (5, 0), "BB")
+        board[6][0] = Piece(ChessPiece.KNIGHT, Color.BLACK, (6, 0), "BK")
+        board[7][0] = Piece(ChessPiece.ROOK, Color.BLACK, (7, 0), "BR")
 
-        board[0][7] = Piece(ChessPiece.ROOK, Color.WHITE, (0, 7), "♖")
-        board[1][7] = Piece(ChessPiece.KNIGHT, Color.WHITE, (1, 7), "♘")
-        board[2][7] = Piece(ChessPiece.BISHOP, Color.WHITE, (2, 7), "♗")
-        board[3][7] = Piece(ChessPiece.QUEEN, Color.WHITE, (3, 7), "♕")
-        board[4][7] = Piece(ChessPiece.KING, Color.WHITE, (4, 7), "♔")
-        board[5][7] = Piece(ChessPiece.BISHOP, Color.WHITE, (5, 7), "♗")
-        board[6][7] = Piece(ChessPiece.KNIGHT, Color.WHITE, (6, 7), "♘")
-        board[7][7] = Piece(ChessPiece.ROOK, Color.WHITE, (7, 7), "♖")
+        board[0][7] = Piece(ChessPiece.ROOK, Color.WHITE, (0, 7), "WR")
+        board[1][7] = Piece(ChessPiece.KNIGHT, Color.WHITE, (1, 7), "WKn")
+        board[2][7] = Piece(ChessPiece.BISHOP, Color.WHITE, (2, 7), "WB")
+        board[3][7] = Piece(ChessPiece.QUEEN, Color.WHITE, (3, 7), "WQ")
+        board[4][7] = Piece(ChessPiece.KING, Color.WHITE, (4, 7), "WK")
+        board[5][7] = Piece(ChessPiece.BISHOP, Color.WHITE, (5, 7), "WB")
+        board[6][7] = Piece(ChessPiece.KNIGHT, Color.WHITE, (6, 7), "WK")
+        board[7][7] = Piece(ChessPiece.ROOK, Color.WHITE, (7, 7), "WR")
 
         self.board = board
 
