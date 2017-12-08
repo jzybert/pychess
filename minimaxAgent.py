@@ -36,19 +36,19 @@ def positionEvaluationFunction(game, color):
             if piece != 0:
                 if piece.getColor() == color:
                     # prioritize controlling the middle
-                    if ((piece.canMoveTo((3, 3), game.board[3][3])
+                    if ((piece.canMoveTo((3, 3), game.board)
                          and game.isNothingBlocking((x, y), (3, 3)))
-                        or (piece.canMoveTo((3, 4), game.board[3][4])
+                        or (piece.canMoveTo((3, 4), game.board)
                             and game.isNothingBlocking((x, y), (3, 4)))
-                        or (piece.canMoveTo((4, 3), game.board[4][3])
+                        or (piece.canMoveTo((4, 3), game.board)
                             and game.isNothingBlocking((x, y), (4, 3)))
-                        or (piece.canMoveTo((4, 4), game.board[4][4])
+                        or (piece.canMoveTo((4, 4), game.board)
                             and game.isNothingBlocking((x, y), (4, 4)))):
                         score += 100
                     # control open squares
                     for px in range(8):
                         for py in range(8):
-                            if (piece.canMoveTo((px, py), game.board[px][py])
+                            if (piece.canMoveTo((px, py), game.board)
                                 and game.isNothingBlocking((x, y), (px, py))):
                                 score += 1
     return score
@@ -80,7 +80,7 @@ def kingEvaluationFunction(game, color):
         for y in range(8):
             opp = game.board[x][y]
             if (opp.getColor() == oppColor
-                and opp.canMoveTo((kx, ky), king)
+                and opp.canMoveTo((kx, ky), game.board)
                 and game.board.isNothingBlocking((x, y), (kx, ky))):
                 numberOfChecks += 1
     if numberOfChecks != 0:

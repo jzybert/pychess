@@ -60,7 +60,7 @@ class ChessGame:
                     for moveX in range(8):
                         for moveY in range(8):
                             if piece.canMoveTo(
-                                    (moveX, moveY), self.board[moveX][moveY]
+                                    (moveX, moveY), self.board
                             ) and self.isNothingBlocking(
                                 (x, y), (moveX, moveY)
                             ):
@@ -159,7 +159,7 @@ class ChessGame:
         piece = self.board[currX][currY]
         if piece != 0 \
            and piece.getColor() == currColor \
-           and piece.canMoveTo(newPos, self.board[newX][newY]) \
+           and piece.canMoveTo(newPos, self.board) \
            and self.isNothingBlocking(currPos, newPos):
             if self.board[newX][newY] != 0:
                 if self.board[newX][newY].getColor() == Color.WHITE:

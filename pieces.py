@@ -69,15 +69,16 @@ class Piece:
     def getName(self):
         return self.name
 
-    def canMoveTo(self, newPos, pieceAtNewPos):
+    def canMoveTo(self, newPos, board):
         """
         Determines if a piece can move to newPos.
         :param newPos: the position to move to
-        :param pieceAtNewPos: the piece at newPos
+        :param board: the game board
         :return: True if the piece can move to newPos
         """
         currX, currY = self.position
         newX, newY = newPos
+        pieceAtNewPos = board[newX][newY]
         if (newX < 0 or newX > 7 or newY < 0 or newY > 7
             or (pieceAtNewPos != 0
                 and pieceAtNewPos.getColor() == self.color)):
@@ -107,12 +108,26 @@ class Piece:
             return abs(currX - newX) == abs(currY - newY)
         if self.piece == ChessPiece.KING:
             if self.color == Color.BLACK:
-                return ((not self.hasMoved and self.position == (4, 0)
-                         and (newPos == (2, 0) or newPos == (6, 0)))
+                return ((not self.hasMoved
+                         and self.position == (4, 0)
+                         and ((newPos == (2, 0)
+                               and not board[0][0].hasMoved
+                               and board[0][0].getPiece() == ChessPiece.ROOK)
+                              or (newPos == (6, 0)
+                                  and not board[7][0].hasMoved
+                                  and board[7][0].getPiece() == ChessPiece.ROOK
+                                  )))
                         or abs(currX - newX) < 2 and abs(currY - newY) < 2)
             else:
-                return ((not self.hasMoved and self.position == (4, 7)
-                         and (newPos == (2, 7) or newPos == (6, 7)))
+                return ((not self.hasMoved
+                         and self.position == (4, 7)
+                         and ((newPos == (2, 7)
+                               and not board[0][7].hasMoved
+                               and board[0][7].getPiece() == ChessPiece.ROOK)
+                              or (newPos == (6, 7)
+                                  and not board[7][7].hasMoved
+                                  and board[7][7].getPiece() == ChessPiece.ROOK
+                                  )))
                         or abs(currX - newX) < 2 and abs(currY - newY) < 2)
         if self.piece == ChessPiece.QUEEN:
             return (currX == newX or currY == newY

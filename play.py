@@ -47,7 +47,7 @@ if not args.ai and not args.data:
             int(x.strip()) for x in input(
                 "Where would you like to move that piece?: "
             ).split(","))
-        if game.movePiece(moveFrom, moveTo, colorsToMove[colorIndex]):
+        if game.movePiece(moveFrom, moveTo, colorsToMove[colorIndex % 2]):
             colorIndex += 1
         else:
             print("That was not a valid move. Try again.")
