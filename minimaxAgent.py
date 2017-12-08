@@ -80,17 +80,6 @@ def kingEvaluationFunction(game, color):
     return score
 
 
-def tempoEvaluationFunction(game, color):
-    """
-    Evaluation function which evaluates moves based on tempo.
-    (i.e. develop faster than your opponent)
-    :param game: a ChessGame
-    :param color: the color making the move
-    :return: the evaluated score
-    """
-    return 0
-
-
 class MinimaxAgent:
     """
     A MinimaxAgent is an agent which uses the minimax algorithm with
