@@ -1,4 +1,5 @@
 import argparse
+import time
 from chess import *
 from minimaxAgent import *
 
@@ -6,7 +7,7 @@ parser = argparse.ArgumentParser(description="Options for a chess game.")
 parser.add_argument("-a", "--ai",
                     help="an AI will choose the best move for you",
                     action="store_true")
-parser.add_argument("-d", "-data",
+parser.add_argument("-d", "--data",
                     help="run tests to get data",
                     action="store_true")
 parser.add_argument("-m", "--material",
@@ -20,7 +21,7 @@ parser.add_argument("-k", "--king",
                     action="store_true")
 args = parser.parse_args()
 
-if not args.ai and not args.test:
+if not args.ai and not args.data:
     game = ChessGame()
 
     startColor = input("Which color is starting first (white or black): ")
@@ -112,8 +113,12 @@ else:
     agent1 = MinimaxAgent(game1, Color.WHITE, eval1)
     agent2 = MinimaxAgent(game2, Color.BLACK, eval2)
 
+    numOfWhiteWins = 0
+    numOfBlackWins = 0
+    times = []
     for i in range(1):
-        print("Running simulation %i", i)
+        print("Running simulation " + str(i))
+        start = time.time()
         while not game1.isOver():
             action1 = agent1.getAction()
             agent1.movePiece(action1[0], action1[1], Color.WHITE)
@@ -123,6 +128,12 @@ else:
             agent1.movePiece(action2[0], action2[0], Color.BLACK)
             agent2.movePiece(action2[0], action2[0], Color.BLACK)
         if game1.whiteWins:
-            print("White won!")
+            numOfWhiteWins += 1
         if game1.blackWins:
-            print("Black won!")
+            numOfBlackWins += 1
+        end = time.time()
+        times.append(end - start)
+    averageTime = sum(times) / len(times)
+    print("Average time: " + str(averageTime))
+    print("White won: " + str(numOfWhiteWins))
+    print("Black won: " + str(numOfBlackWins))
