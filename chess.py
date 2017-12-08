@@ -125,10 +125,13 @@ class ChessGame:
         for y in range(8):
             for x in range(8):
                 if self.board[x][y] == 0:
-                    print(" 0", end=" ")
+                    print("  0 ", end=" ")
                 else:
                     name = self.board[x][y].getName()
-                    print(" " + name, end=" ")
+                    if len(name) == 2:
+                        print("  " + name, end=" ")
+                    else:
+                        print(" " + name, end=" ")
             print(" ")
         print(" ")
 
