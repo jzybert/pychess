@@ -2,29 +2,47 @@ import argparse
 import time
 from chess import *
 from minimaxAgent import *
+from randomAgent import *
 
 parser = argparse.ArgumentParser(description="Options for a chess game.")
-parser.add_argument("-a", "--ai",
-                    help="an AI will choose the best move for you",
-                    action="store_true")
-parser.add_argument("-d", "--data",
-                    help="run tests to get data",
-                    action="store_true")
+# show chess board after each move
 parser.add_argument("-v", "--visual",
                     help="show the chess board when playing",
                     action="store_true")
+# options for ai/testing
+parser.add_argument("-a", "--ai",
+                    help="an AI will choose the best move for you",
+                    action="store_true")
+parser.add_argument("--data1",
+                    help="run tests to compare evaluation functions",
+                    action="store_true")
+parser.add_argument("--data2",
+                    help="run tests to compare agents",
+                    action="store_true")
+# options for evaluation functions
 parser.add_argument("-m", "--material",
-                    help="evaluate moves based on material",
+                    help="evaluate moves purely based on material",
                     action="store_true")
 parser.add_argument("-p", "--position",
-                    help="evaluate moves based on position",
+                    help="evaluate moves purely based on position",
                     action="store_true")
 parser.add_argument("-k", "--king",
-                    help="evaluate moves based on king safety",
+                    help="evaluate moves purely based on king safety",
+                    action="store_true")
+parser.add_argument("-c", "--combined",
+                    help="evaluate moves based on material, position, and "
+                         "king safety",
+                    action="store_true")
+# options for agents
+parser.add_argument("--random",
+                    help="use a random agent to determine moves",
+                    action="store_true")
+parser.add_argument("--minimax",
+                    help="use a minimax agent to determine moves",
                     action="store_true")
 args = parser.parse_args()
-
-if not args.ai and not args.data:
+# normal game of chess (no AI or tests)
+if not args.ai and not args.data1 and not args.data2:
     game = ChessGame()
 
     startColor = input("Which color is starting first (white or black): ")
@@ -51,6 +69,7 @@ if not args.ai and not args.data:
             colorIndex += 1
         else:
             print("That was not a valid move. Try again.")
+# an AI will tell you which move is the best
 elif args.ai:
     game = ChessGame()
     userColor = input("Which color are you (white or black): ")
@@ -61,7 +80,9 @@ elif args.ai:
         oppColor = Color.BLACK
 
     agent = 0
-    if args.material:
+    if args.random:
+        agent = RandomAgent(game, color)
+    elif args.material:
         agent = MinimaxAgent(game, color, "scoreEvaluationFunction")
     elif args.position:
         agent = MinimaxAgent(game, color, "positionEvaluationFunction")
@@ -91,7 +112,8 @@ elif args.ai:
         action = agent.getAction()
         print("Best action for you to take: %s" % (action,))
         agent.movePiece(action[0], action[1], color)
-        agent.printBoard()
+        if args.visual:
+            agent.printBoard()
         moveFrom = tuple(
             int(x.strip()) for x in input(
                 "Where did your opponent move from: "
@@ -103,48 +125,44 @@ elif args.ai:
             ).split(",")
         )
         agent.movePiece(moveFrom, moveTo, oppColor)
-else:
+# tests for evaluation functions
+elif args.data1:
     game = ChessGame()
-    numOfGames = 0
+
     eval1 = "scoreEvaluationFunction"
     eval2 = "positionEvaluationFunction"
     if args.material and args.king:
         eval2 = "kingEvaluationFunction"
+    elif args.material and args.combined:
+        eval2 = "combinedEvaluationFunction"
     elif args.position and args.king:
         eval1 = "kingEvaluationFunction"
+    elif args.position and args.combined:
+        eval1 = "combinedEvaluationFunction"
+    elif args.king and args.combined:
+        eval1 = "kingEvaluationFunction"
+        eval2 = "combinedEvaluationFunction"
+
+    print("Starting simulation for " + eval1 + " and " + eval2 + ".")
     agent1 = MinimaxAgent(game, Color.WHITE, eval1)
     agent2 = MinimaxAgent(game, Color.BLACK, eval2)
 
-    numOfWhiteWins = 0
-    numOfBlackWins = 0
-    times1 = []
-    times2 = []
-    for i in range(1):
-        print("Running simulation " + str(i))
-        while not game.isOver():
-            start1 = time.time()
-            action1 = agent1.getAction()
-            end1 = time.time()
-            agent1.movePiece(action1[0], action1[1], Color.WHITE)
-            print("Move took: " + str(end1 - start1))
-            if args.visual:
-                agent1.printBoard()
-            start2 = time.time()
-            action2 = agent2.getAction()
-            end2 = time.time()
-            agent2.movePiece(action2[0], action2[1], Color.BLACK)
-            print("Move took: " + str(end2 - start2))
-            if args.visual:
-                agent2.printBoard()
-            times1.append(end1 - start1)
-            times2.append(end2 - start2)
-        if game.whiteWins:
-            numOfWhiteWins += 1
-        if game.blackWins:
-            numOfBlackWins += 1
-    averageTime1 = sum(times1) / len(times1)
-    averageTime2 = sum(times2) / len(times2)
-    print("Average time for white move: " + str(averageTime1))
-    print("Average time for black move: " + str(averageTime2))
-    print("White won: " + str(numOfWhiteWins))
-    print("Black won: " + str(numOfBlackWins))
+    print("Gathering data...")
+
+    start1 = time.time()
+    action1 = agent1.getAction()
+    end1 = time.time()
+    agent1.movePiece(action1[0], action1[1], Color.WHITE)
+    print("First move for white took " + str(end1 - start1) + " seconds.")
+    if args.visual:
+        agent1.printBoard()
+
+    start2 = time.time()
+    action2 = agent2.getAction()
+    end2 = time.time()
+    agent2.movePiece(action2[0], action2[1], Color.BLACK)
+    print("First move for black took: " + str(end2 - start2) + " seconds.")
+    if args.visual:
+        agent2.printBoard()
+else:
+    game = ChessGame()
