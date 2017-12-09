@@ -126,12 +126,14 @@ else:
             action1 = agent1.getAction()
             end1 = time.time()
             agent1.movePiece(action1[0], action1[1], Color.WHITE)
+            print("Move took: " + str(end1 - start1))
             if args.visual:
                 agent1.printBoard()
             start2 = time.time()
             action2 = agent2.getAction()
             end2 = time.time()
             agent2.movePiece(action2[0], action2[1], Color.BLACK)
+            print("Move took: " + str(end2 - start2))
             if args.visual:
                 agent2.printBoard()
             times1.append(end1 - start1)
