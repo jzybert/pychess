@@ -75,12 +75,12 @@ def kingEvaluationFunction(game, color):
         score += 10
     # reduce the number of checks (encourage blocking)
     kx, ky = game.findPiece(ChessPiece.KING, color)
-    king = game.board[kx][ky]
     numberOfChecks = 0
     for x in range(8):
         for y in range(8):
             opp = game.board[x][y]
-            if (opp.getColor() == oppColor
+            if (opp != 0
+                and opp.getColor() == oppColor
                 and opp.canMoveTo((kx, ky), game.board)
                 and game.board.isNothingBlocking((x, y), (kx, ky))):
                 numberOfChecks += 1
