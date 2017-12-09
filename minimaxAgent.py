@@ -1,4 +1,5 @@
 from pieces import *
+from agent import Agent
 
 
 def scoreEvaluationFunction(game, color):
@@ -88,7 +89,7 @@ def kingEvaluationFunction(game, color):
     return score
 
 
-class MinimaxAgent:
+class MinimaxAgent(Agent):
     """
     A MinimaxAgent is an agent which uses the minimax algorithm with
     alpha-beta pruning that, given an evaluation function, determines the
@@ -101,24 +102,9 @@ class MinimaxAgent:
     """
     def __init__(self, game, startColor, evalFn='scoreEvaluationFunction',
                  depth='2'):
+        super().__init__(game, startColor)
         self.evaluationFunction = globals()[evalFn]
         self.depth = int(depth)
-        self.game = game
-        self.startColor = startColor
-
-    def printBoard(self):
-        """ Prints the game board. """
-        self.game.printBoard()
-
-    def movePiece(self, moveFrom, moveTo, oppColor):
-        """
-        Moves the piece at moveFrom to moveTo.
-
-        :param moveFrom: the position of the piece to move
-        :param moveTo: the position to move the piece to
-        :param oppColor: the color of the opponent
-        """
-        self.game.movePiece(moveFrom, moveTo, oppColor)
 
     def getAction(self):
         """
