@@ -3,6 +3,9 @@
 class Agent:
     """
     An Agent that can return a legal chess action for the user or AI to take.
+
+    :param game: a ChessGame to run the agent on
+    :param startColor: the color that the agent will choose moves for
     """
     def __init__(self, game, startColor):
         self.game = game
