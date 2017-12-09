@@ -89,6 +89,13 @@ def kingEvaluationFunction(game, color):
     return score
 
 
+def combinedEvaluationFunction(game, color):
+    score = (kingEvaluationFunction(game, color)
+             + positionEvaluationFunction(game, color)
+             + scoreEvaluationFunction(game, color))
+    return score
+
+
 class MinimaxAgent(Agent):
     """
     A MinimaxAgent is an agent which uses the minimax algorithm with
@@ -100,7 +107,7 @@ class MinimaxAgent(Agent):
     :param evalFn: the evaluation function name
     :param depth: the depth to search moves
     """
-    def __init__(self, game, startColor, evalFn='scoreEvaluationFunction',
+    def __init__(self, game, startColor, evalFn='combinedEvaluationFunction',
                  depth='2'):
         super().__init__(game, startColor)
         self.evaluationFunction = globals()[evalFn]
