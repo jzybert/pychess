@@ -142,7 +142,8 @@ class ChessGame:
         for x in range(8):
             for y in range(8):
                 piece = self.board[x][y]
-                if (piece.getPiece() == pieceType
+                if (piece != 0
+                    and piece.getPiece() == pieceType
                     and piece.getColor() == color):
                     return x, y
 
