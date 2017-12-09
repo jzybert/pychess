@@ -1,3 +1,4 @@
+import random
 from agent import Agent
 
 
@@ -16,3 +17,5 @@ class RandomAgent(Agent):
         Randomly chooses a legal action
         :return: the action
         """
+        legalMoves = self.game.getLegalMoves(self.startColor)
+        return random.choice(legalMoves)
