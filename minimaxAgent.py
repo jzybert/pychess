@@ -70,8 +70,10 @@ def kingEvaluationFunction(game, color):
 
     score = 0
     # castle early
-    if (game.board[2][castleToY].getPiece() == ChessPiece.KING
-        or game.board[6][castleToY].getPiece() == ChessPiece.KING):
+    if ((game.board[2][castleToY] != 0
+         and game.board[2][castleToY].getPiece() == ChessPiece.KING
+        or (game.board[6][castleToY] != 0
+            and game.board[6][castleToY].getPiece() == ChessPiece.KING))):
         score += 10
     # reduce the number of checks (encourage blocking)
     kx, ky = game.findPiece(ChessPiece.KING, color)
@@ -82,7 +84,7 @@ def kingEvaluationFunction(game, color):
             if (opp != 0
                 and opp.getColor() == oppColor
                 and opp.canMoveTo((kx, ky), game.board)
-                and game.board.isNothingBlocking((x, y), (kx, ky))):
+                and game.isNothingBlocking((x, y), (kx, ky))):
                 numberOfChecks += 1
     if numberOfChecks != 0:
         score -= 100
