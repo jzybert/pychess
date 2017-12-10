@@ -166,3 +166,25 @@ elif args.data1:
         agent2.printBoard()
 else:
     game = ChessGame()
+
+    randomAgent = RandomAgent(game, Color.WHITE)
+    minimaxAgent = MinimaxAgent(game, Color.WHITE)
+
+    for i in range(8):
+        print("Starting game " + str(i + 1))
+
+        while not game.isOver():
+            rAction = randomAgent.getAction()
+            randomAgent.movePiece(rAction[0], rAction[1], Color.WHITE)
+            if args.visual:
+                randomAgent.printBoard()
+
+            mAction = minimaxAgent.getAction()
+            minimaxAgent.movePiece(mAction[0], mAction[1], Color.BLACK)
+            if args.visual:
+                minimaxAgent.printBoard()
+
+        if game.whiteWins:
+            print("White won!")
+        elif game.blackWins:
+            print("Black won!")
