@@ -77,6 +77,8 @@ def kingEvaluationFunction(game, color):
         score += 10
     # reduce the number of checks (encourage blocking)
     kx, ky = game.findPiece(ChessPiece.KING, color)
+    if kx == -1 and ky == -1:  # if it can't find the king (lost)
+        return -100000000
     numberOfChecks = 0
     for x in range(8):
         for y in range(8):
@@ -123,8 +125,10 @@ class MinimaxAgent(Agent):
         def maxValue(state, depth, alpha, beta, colorIndex):
             # max part of minimax
             color = colors[colorIndex % 2]
-            if state.isWin(color) or state.isLose(color) or depth == maxDepth:
-                return self.evaluationFunction(state, color)
+            colorCheck = colors[(colorIndex + 1) % 2]
+            if state.isWin(colorCheck) or state.isLose(colorCheck) \
+                    or depth == maxDepth:
+                return self.evaluationFunction(state, colorCheck)
             v = float("-inf")
             for move in state.getLegalMoves(color):
                 v = max(v, minValue(state.generateSuccessor(color, move),
@@ -137,8 +141,10 @@ class MinimaxAgent(Agent):
         def minValue(state, depth, alpha, beta, colorIndex):
             # min part of minimax
             color = colors[colorIndex % 2]
-            if state.isWin(color) or state.isLose(color) or depth == maxDepth:
-                return self.evaluationFunction(state, color)
+            colorCheck = colors[(colorIndex + 1) % 2]
+            if state.isWin(colorCheck) or state.isLose(colorCheck) \
+                    or depth == maxDepth:
+                return self.evaluationFunction(state, colorCheck)
             v = float("inf")
             legalMoves = state.getLegalMoves(color)
             for move in legalMoves:
