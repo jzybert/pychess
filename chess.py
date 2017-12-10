@@ -146,6 +146,7 @@ class ChessGame:
                     and piece.getPiece() == pieceType
                     and piece.getColor() == color):
                     return x, y
+        return -1, -1
 
     def movePiece(self, currPos, newPos, currColor):
         """
@@ -164,13 +165,13 @@ class ChessGame:
            and self.isNothingBlocking(currPos, newPos):
             if self.board[newX][newY] != 0:
                 if self.board[newX][newY].getColor() == Color.WHITE:
-                    self.capturedWhitePieces.append(self.board[newX][newY])
                     if self.board[newX][newY].getPiece() == ChessPiece.KING:
                         self.blackWins = True
+                    self.capturedWhitePieces.append(self.board[newX][newY])
                 else:
-                    self.capturedBlackPieces.append(self.board[newX][newY])
                     if self.board[newX][newY].getPiece() == ChessPiece.KING:
                         self.whiteWins = True
+                    self.capturedBlackPieces.append(self.board[newX][newY])
             if piece.getPiece() == ChessPiece.KING:
                 y = 0
                 if piece.getColor() == Color.WHITE:
