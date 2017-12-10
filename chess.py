@@ -52,6 +52,9 @@ class ChessGame:
         :param color: the color to find legal moves for
         :return: an array of legal moves
         """
+        cMoves = []
+        fMoves = []
+        bMoves = []
         moves = []
         for x in range(8):
             for y in range(8):
@@ -59,12 +62,22 @@ class ChessGame:
                 if piece != 0 and piece.getColor() == color:
                     for moveX in range(8):
                         for moveY in range(8):
-                            if piece.canMoveTo(
-                                    (moveX, moveY), self.board
-                            ) and self.isNothingBlocking(
-                                (x, y), (moveX, moveY)
-                            ):
-                                moves.append(((x, y), (moveX, moveY)))
+                            pieceAt = self.board[moveX][moveY]
+                            if piece.canMoveTo((moveX, moveY), self.board)\
+                                    and self.isNothingBlocking((x, y),
+                                                               (moveX, moveY)):
+                                # captured pieces
+                                if (pieceAt != 0
+                                    and pieceAt.getColor() != color):
+                                    cMoves.append(((x, y), (moveX, moveY)))
+                                # moving forward
+                                elif pieceAt == 0 and y > moveY:
+                                    fMoves.append(((x, y), (moveX, moveY)))
+                                else:
+                                    bMoves.append(((x, y), (moveX, moveY)))
+        moves.extend(cMoves)
+        moves.extend(fMoves)
+        moves.extend(bMoves)
         return moves
 
     def generateSuccessor(self, color, move):
