@@ -161,6 +161,19 @@ class ChessGame:
                     return x, y
         return -1, -1
 
+    def canMovePiece(self, piece, color, currPos, newPos):
+        """
+        Completes all of the checks to see if a piece can be moved.
+        :param piece: the Piece to move
+        :param color: the Color of the player going
+        :param currPos: the current xy-pos of piece
+        :param newPos: the new xy-pos of piece
+        :return: True if piece can move to newPos
+        """
+        return (piece != 0 and piece.getColor() == color
+                and piece.canMoveTo(newPos, self.board)
+                and self.isNothingBlocking(currPos, newPos))
+
     def movePiece(self, currPos, newPos, currColor):
         """
         Moves the piece at currPos to newPos.
@@ -172,10 +185,7 @@ class ChessGame:
         currX, currY = currPos
         newX, newY = newPos
         piece = self.board[currX][currY]
-        if piece != 0 \
-           and piece.getColor() == currColor \
-           and piece.canMoveTo(newPos, self.board) \
-           and self.isNothingBlocking(currPos, newPos):
+        if self.canMovePiece(piece, currColor, currPos, newPos):
             if self.board[newX][newY] != 0:
                 if self.board[newX][newY].getColor() == Color.WHITE:
                     if self.board[newX][newY].getPiece() == ChessPiece.KING:
@@ -221,107 +231,84 @@ class ChessGame:
         if newBoard == 0 or newBoard.getColor() != currBoard.getColor():
             piece = currBoard.getPiece()
             if piece == ChessPiece.BISHOP:
-                if currX < newX and currY < newY:
-                    i = currY + 1
-                    for x in range(currX + 1, newX):
-                        if self.board[x][i] != 0 and x != newX:
-                            return False
-                        i += 1
-                    return True
-                if currX > newX and currY < newY:
-                    i = newY
-                    for x in range(newX, currX):
-                        if self.board[x][i] != 0 and x != newX:
-                            return False
-                        i -= 1
-                    return True
-                if currX > newX and currY > newY:
-                    i = newY
-                    for x in range(newX, currX):
-                        if self.board[x][i] != 0 and x != newX:
-                            return False
-                        i += 1
-                    return True
-                if currX < newX and currY > newY:
-                    i = currY - 1
-                    for x in range(currX + 1, newX):
-                        if self.board[x][i] != 0 and x != newX:
-                            return False
-                        i -= 1
-                    return True
+                return self.isDiagonalNotBlocked(currX, currY, newX, newY)
             elif piece == ChessPiece.ROOK:
-                if currX > newX:
-                    for x in range(newX, currX):
-                        if self.board[x][currY] != 0 and x != newX:
-                            return False
-                    return True
-                if currX < newX:
-                    for x in range(currX + 1, newX):
-                        if self.board[x][currY] != 0 and x != newX:
-                            return False
-                    return True
-                if currY > newY:
-                    for y in range(newY, currY):
-                        if self.board[currX][y] != 0 and y != newY:
-                            return False
-                    return True
-                if currY < newY:
-                    for y in range(currY + 1, newY):
-                        if self.board[currX][y] != 0 and y != newY:
-                            return False
-                    return True
+                return self.isStraightNotBlocked(currX, currY, newX, newY)
             elif piece == ChessPiece.QUEEN:
-                if currY == newY:
-                    if currX > newX:
-                        for x in range(newX, currX):
-                            if self.board[x][currY] != 0 and x != newX:
-                                return False
-                        return True
-                    if currX < newX:
-                        for x in range(currX + 1, newX):
-                            if self.board[x][currY] != 0 and x != newX:
-                                return False
-                        return True
-                elif currX == newX:
-                    if currY > newY:
-                        for y in range(newY, currY):
-                            if self.board[currX][y] != 0 and y != newY:
-                                return False
-                        return True
-                    if currY < newY:
-                        for y in range(currY + 1, newY):
-                            if self.board[currX][y] != 0 and y != newY:
-                                return False
-                        return True
+                if currY == newY or currX == newX:
+                    return self.isStraightNotBlocked(currX, currY, newX, newY)
                 else:
-                    if currX < newX and currY < newY:
-                        i = currY + 1
-                        for x in range(currX + 1, newX):
-                            if self.board[x][i] != 0 and x != newX:
-                                return False
-                            i += 1
-                        return True
-                    if currX > newX and currY < newY:
-                        i = newY
-                        for x in range(newX, currX):
-                            if self.board[x][i] != 0 and x != newX:
-                                return False
-                            i -= 1
-                        return True
-                    if currX > newX and currY > newY:
-                        i = newY
-                        for x in range(newX, currX):
-                            if self.board[x][i] != 0 and x != newX:
-                                return False
-                            i += 1
-                        return True
-                    if currX < newX and currY > newY:
-                        i = currY - 1
-                        for x in range(currX + 1, newX):
-                            if self.board[x][i] != 0 and x != newX:
-                                return False
-                            i -= 1
-                        return True
+                    return self.isDiagonalNotBlocked(currX, currY, newX, newY)
             else:
                 return True
         return False
+
+    def isDiagonalNotBlocked(self, currX, currY, newX, newY):
+        """
+        Helper function to check if a diagonal move is not blocked by any
+        pieces.
+        :param currX: current x-pos of moving piece
+        :param currY: current y-pos of moving piece
+        :param newX: new x-pos of moving piece
+        :param newY: new y-pos of moving piece
+        :return: True if the piece is not blocked
+        """
+        if currX < newX and currY < newY:
+            i = currY + 1
+            for x in range(currX + 1, newX):
+                if self.board[x][i] != 0 and x != newX:
+                    return False
+                i += 1
+            return True
+        if currX > newX and currY < newY:
+            i = newY
+            for x in range(newX, currX):
+                if self.board[x][i] != 0 and x != newX:
+                    return False
+                i -= 1
+            return True
+        if currX > newX and currY > newY:
+            i = newY
+            for x in range(newX, currX):
+                if self.board[x][i] != 0 and x != newX:
+                    return False
+                i += 1
+            return True
+        if currX < newX and currY > newY:
+            i = currY - 1
+            for x in range(currX + 1, newX):
+                if self.board[x][i] != 0 and x != newX:
+                    return False
+                i -= 1
+            return True
+
+    def isStraightNotBlocked(self, currX, currY, newX, newY):
+        """
+        Helper function to check if a row or file move is not blocked by any
+        pieces.
+        :param currX: current x-pos of moving piece
+        :param currY: current y-pos of moving piece
+        :param newX: new x-pos of moving piece
+        :param newY: new y-pos of moving piece
+        :return: True if the piece is not blocked
+        """
+        if currX > newX:
+            for x in range(newX, currX):
+                if self.board[x][currY] != 0 and x != newX:
+                    return False
+            return True
+        if currX < newX:
+            for x in range(currX + 1, newX):
+                if self.board[x][currY] != 0 and x != newX:
+                    return False
+            return True
+        if currY > newY:
+            for y in range(newY, currY):
+                if self.board[currX][y] != 0 and y != newY:
+                    return False
+            return True
+        if currY < newY:
+            for y in range(currY + 1, newY):
+                if self.board[currX][y] != 0 and y != newY:
+                    return False
+            return True
