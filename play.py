@@ -111,7 +111,17 @@ elif args.ai:
         print("Generating best move...")
         action = agent.getAction()
         print("Best action for you to take: %s" % (action,))
-        agent.movePiece(action[0], action[1], color)
+        moveFromYou = tuple(
+            int(x.strip()) for x in input(
+                "Where did you move from: "
+            ).split(",")
+        )
+        moveToYou = tuple(
+            int(x.strip()) for x in input(
+                "Where did you move to: "
+            ).split(",")
+        )
+        agent.movePiece(moveFromYou, moveToYou, color)
         if args.visual:
             agent.printBoard()
         moveFrom = tuple(
