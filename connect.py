@@ -51,7 +51,8 @@ def init_board():
         piece("queen", "black", "8", "d"), piece("bishop", "black", "8", "c"),
         piece("knight", "black", "8", "b"), piece("rook", "black", "8", "a")
     ]
-    return jsonify({"board": pieces, "turn": "white", "number_of_moves": "0"})
+    return jsonify({"board": pieces, "turn": "white", "number_of_moves": "0",
+                    "list_of_moves": []})
 
 
 if __name__ == "__main__":
